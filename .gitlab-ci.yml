@@ -1,2 +1,3 @@
-quality_check:
-    - sonar-scanner
+test:
+    quality_check:
+        - sonar-scanner
