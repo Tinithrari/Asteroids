@@ -7,6 +7,10 @@ sonar.projectVersion=1.0
 # Path is relative to the sonar-project.properties file. Replace "\" by "/" on Windows.
 # This property is optional if sonar.modules is set. 
 sonar.sources=./Asteroids
+
+sonar.login=be1877717b593fb38d50e76b165640159112e13d
+
+sonar.language=cpp
  
 # Encoding of the source code. Default is default system encoding
 #sonar.sourceEncoding=UTF-8
