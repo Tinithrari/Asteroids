@@ -1,3 +1,6 @@
 tests:
-    quality_check:
-        - sonar-scanner
+   script: "sonar-scanner"
+   artifacts:
+     untracked: true
+   tags:
+     - c++
