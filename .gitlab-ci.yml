@@ -1,6 +1,4 @@
 tests:
    script: "sonar-scanner"
-   artifacts:
-     untracked: true
    tags:
      - c++
