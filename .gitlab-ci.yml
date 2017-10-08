@@ -1,4 +1,4 @@
-tests:
+qualte:
    script: "sonar-scanner"
    tags:
      - c++
