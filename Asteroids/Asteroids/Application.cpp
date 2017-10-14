@@ -18,6 +18,10 @@ void Application::processEvent(sf::Event &e)
 
 void Application::update(float delta)
 {
+}
+
+void Application::update(float delta)
+{
 	// Application update
 }
 
@@ -47,4 +51,8 @@ void Application::run()
 		update(delta);
 		render();
 	}
+}
+
+void Application::processEvent(sf::Event & e)
+{
 }

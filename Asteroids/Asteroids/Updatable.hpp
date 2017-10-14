@@ -2,7 +2,7 @@
 
 #include <SFML/Window/Event.hpp>
 
-class Udaptable
+class Updatable
 {
 public:
 	virtual void processEvent(sf::Event &e) = 0;
