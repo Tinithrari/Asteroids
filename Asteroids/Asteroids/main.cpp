@@ -2,9 +2,9 @@
 
 int main()
 {
-	Application app;
+    Application app;
 
-	app.run();
+    app.run();
 
-	return 0;
+    return 0;
 }

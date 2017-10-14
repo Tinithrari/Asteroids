@@ -10,10 +10,10 @@ Application::~Application()
 
 void Application::processEvent(sf::Event &e)
 {
-	if (e.type == sf::Event::Closed)
-		_window.close();
+    if (e.type == sf::Event::Closed)
+        _window.close();
 
-	// Event dispatching
+    // Event dispatching
 }
 
 void Application::update(float delta)
@@ -22,35 +22,35 @@ void Application::update(float delta)
 
 void Application::update(float delta)
 {
-	// Application update
+    // Application update
 }
 
 void Application::render()
 {
-	_window.clear();
-	// Rendering chain here
-	_window.display();
+    _window.clear();
+    // Rendering chain here
+    _window.display();
 }
 
 void Application::run()
 {
-	float lastRefresh;
-	_clock.restart();
+    float lastRefresh;
+    _clock.restart();
 
-	lastRefresh = _clock.getElapsedTime().asSeconds();
-	while (_window.isOpen())
-	{
-		float delta = _clock.getElapsedTime().asSeconds();
-		sf::Event e;
+    lastRefresh = _clock.getElapsedTime().asSeconds();
+    while (_window.isOpen())
+    {
+        float delta = _clock.getElapsedTime().asSeconds();
+        sf::Event e;
 
-		while ( _window.pollEvent(e))
-		{
-			processEvent(e);
-		}
+        while (_window.pollEvent(e))
+        {
+            processEvent(e);
+        }
 
-		update(delta);
-		render();
-	}
+        update(delta);
+        render();
+    }
 }
 
 void Application::processEvent(sf::Event & e)

@@ -1,8 +1,6 @@
 #include "Asteroid.hpp"
 
-
-
-world::Asteroid::Asteroid(int size, Vector2f position): _size(size)
+world::Asteroid::Asteroid(int size, Vector2f position) : _size(size)
 {
 }
 
