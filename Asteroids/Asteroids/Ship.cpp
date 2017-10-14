@@ -9,11 +9,11 @@ world::Ship::~Ship()
 {
 }
 
-void world::Ship::processEvent(sf::Event & e)
+void world::Ship::ProcessEvent(sf::Event & e)
 {
 }
 
-void world::Ship::update(float delta)
+void world::Ship::Update(float delta)
 {
 }
 

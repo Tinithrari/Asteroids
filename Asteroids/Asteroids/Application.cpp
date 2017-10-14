@@ -8,7 +8,7 @@ Application::~Application()
 {
 }
 
-void Application::processEvent(sf::Event &e)
+void Application::ProcessEvent(sf::Event &e)
 {
     if (e.type == sf::Event::Closed)
         _window.close();
@@ -16,11 +16,11 @@ void Application::processEvent(sf::Event &e)
     // Event dispatching
 }
 
-void Application::update(float delta)
+void Application::Update(float delta)
 {
 }
 
-void Application::update(float delta)
+void Application::Update(float delta)
 {
     // Application update
 }
@@ -45,14 +45,14 @@ void Application::run()
 
         while (_window.pollEvent(e))
         {
-            processEvent(e);
+            ProcessEvent(e);
         }
 
-        update(delta);
+        Update(delta);
         render();
     }
 }
 
-void Application::processEvent(sf::Event & e)
+void Application::ProcessEvent(sf::Event & e)
 {
 }

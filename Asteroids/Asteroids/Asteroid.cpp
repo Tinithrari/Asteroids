@@ -8,11 +8,11 @@ world::Asteroid::~Asteroid()
 {
 }
 
-void world::Asteroid::processEvent(sf::Event & e)
+void world::Asteroid::ProcessEvent(sf::Event & e)
 {
 }
 
-void world::Asteroid::update(float delta)
+void world::Asteroid::Update(float delta)
 {
 }
 

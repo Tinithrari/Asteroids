@@ -10,8 +10,8 @@ class Application : private Updatable
 private:
     sf::Clock _clock;
     sf::RenderWindow _window;
-    virtual void processEvent(sf::Event & e) override;
-    virtual void update(float delta) override;
+    virtual void ProcessEvent(sf::Event & e) override;
+    virtual void Update(float delta) override;
     void render();
 public:
     Application();
