@@ -16,21 +16,32 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "Asteroid.hpp"
+
 /**
- * @file main.cpp
- * @brief Fichier contenant le point d'entree du programme
- * @author Xavier Heugue
- * @version 1.0
- */
+* @file Asteroid.cpp
+* @author Xavier Heugue
+* @brief Implementation de la classe Asteroid
+* @version 1.0
+* @see Asteroid.hpp
+*/
 
-#include "Application.hpp"
-
-int main()
+world::Asteroid::Asteroid(int size, Vector2f position) : _size(size)
 {
-    // Creer l'application et l'exécute
-    Application app;
+}
 
-    app.run();
+world::Asteroid::~Asteroid()
+{
+}
 
-    return 0;
+void world::Asteroid::ProcessEvent(sf::Event & e)
+{
+}
+
+void world::Asteroid::Update(float delta)
+{
+}
+
+void world::Asteroid::draw(RenderTarget & target, RenderStates states) const
+{
 }

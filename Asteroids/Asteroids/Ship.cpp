@@ -16,39 +16,33 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once
+#include "Ship.hpp"
 
 /**
- * @file Updatable.hpp
- * @brief Fichier contenant l'interface pour les objets pouvant subir des modifications
+ * @file Ship.cpp
  * @author Xavier Heugue
+ * @brief Implementation de la classe Ship
  * @version 1.0
+ * @see Ship.hpp
  */
 
-#include <SFML/Window/Event.hpp>
-
-/**
- * @class Updatable
- * @brief interface pour la mise a jour d'objet
- *
- * Interface à implementer pour la mise a jour d'objet dans le jeu
- */
-class Updatable
+world::Ship::Ship()
 {
-public:
-    /**
-     * @brief Fonction de gestion des évènements
-     * @param e Evenement a gerer
-     * 
-     * Fonction mettant a jour l'etat de l'objet
-     */
-    virtual void ProcessEvent(sf::Event &e) = 0;
+}
 
-    /**
-     * @brief Met a jour l'objet
-     * @param delta la duree entre deux mise à jour
-     *
-     * Met a jour l'objet en fonction de son état et du temps ecoule
-     */
-    virtual void Update(float delta) = 0;
-};
+
+world::Ship::~Ship()
+{
+}
+
+void world::Ship::ProcessEvent(sf::Event & e)
+{
+}
+
+void world::Ship::Update(float delta)
+{
+}
+
+void world::Ship::draw(RenderTarget & target, RenderStates states) const
+{
+}
