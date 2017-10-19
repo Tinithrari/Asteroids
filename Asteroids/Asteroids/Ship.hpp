@@ -46,8 +46,31 @@ namespace world
      */
     class Ship : public Updatable, public Drawable
     {
+    /**
+     * @enum control_event
+     *
+     * Flag utilise lorsque une entree utilisateur a ete effectue
+     */
+    enum control_event 
+    { 
+        NONE = 0, /*<! Quand il n'y a pas d'evenement*/
+        BACKWARD = 2, /*!< Quand le vaisseau fait marche arriere */
+        FORWARD = 4,  /*<! Quand le vaisseau fait marche avant */
+        ROT_LEFT = 8, /*<! Quand le vaisseau tourne a gauche */
+        ROT_RIGHT = 16 /*<! Quand le vaisseau tourne a droite */
+    };
     private:
+        static const float MAX_ESSENCE; /*!< Maximum d'essence disponible */
+        static const int ANGLE_MAX; /*!< Le plus grand angle en degre */
+        static const float SPEED; /*<! Coefficient de vitesse */
+
         Sprite _ship; /*<! Le sprite du vaisseau */
+        bool _keyPressed; /*<! Objet pour éviter la duplication d'evenements clavier */
+        control_event _event; /*<! Evenement de controle du vaisseau */
+        sf::Vector2f _thrusterForces; /*<! Force des moteurs */
+        sf::Vector2f _orientation; /*<! Orientation du vaiseau (facteur des translations) */
+        void checkKeyPressed(sf::Event &e); /*<! Gere les evenements quand une touche est appuyee */
+        void checkKeyReleased(sf::Event &e); /*<! Gere les evenements quand une touche est relachee */
     public:
         /**
          * Constructeur par défaut
@@ -64,4 +87,7 @@ namespace world
 
         virtual void draw(RenderTarget & target, RenderStates states) const override;
     };
+    const float Ship::MAX_ESSENCE(100.f);
+    const float Ship::SPEED(10.f);
+    const int Ship::ANGLE_MAX(360);
 }
