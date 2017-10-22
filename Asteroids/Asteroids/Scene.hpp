@@ -22,18 +22,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <SFML/Graphics.hpp>
 
 /**
- * @namespace world
- *
- * Contient tous les éléments définissant le monde du jeu
- */
+* @namespace world
+*
+* Contient tous les éléments définissant le monde du jeu
+*/
 namespace world
 {
     /**
-     * @class Scene
-     * @brief Conteneur d'éléments graphiques
-     *
-     * Définit le contexte affiché à l'écran
-     */
+    * @class Scene
+    * @brief Conteneur d'éléments graphiques
+    *
+    * Définit le contexte affiché à l'écran
+    */
     class Scene : public Updatable, public sf::Drawable
     {
     };
