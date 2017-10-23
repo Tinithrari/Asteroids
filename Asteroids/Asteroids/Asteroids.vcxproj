@@ -140,6 +140,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="Stack.cpp" />
+    <ClCompile Include="StackAllocator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Allocator.hpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="Asteroid.hpp" />
     <ClInclude Include="Ship.hpp" />
     <ClInclude Include="Stack.hpp" />
+    <ClInclude Include="StackAllocator.hpp" />
     <ClInclude Include="Updatable.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
