@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include <cstdint>
+#include <cmath>
 #include <stdexcept>
 
 using namespace std;
@@ -81,7 +82,7 @@ namespace memory
                 throw overflow_error("Impossible d'allouer plus de ressources");
 
             u64 *memoryBloc = _top;
-            _top += size;
+            _top += (int)ceil(size / sizeof(u64)) + 1;
 
             return memoryBloc;
         }
@@ -98,7 +99,7 @@ namespace memory
             if (ptr == nullptr)
                 throw invalid_argument("le pointeur ne doit pas etre nul");
 
-            if ((ptr + size) == _top)
+            if ((ptr + (int)ceil(size / sizeof(u64)))== _top)
                 _top = ptr;
         }
         
