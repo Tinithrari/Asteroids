@@ -82,7 +82,7 @@ namespace memory
                 throw overflow_error("Impossible d'allouer plus de ressources");
 
             u64 *memoryBloc = _top;
-            _top += (int)ceil(size / sizeof(u64)) + 1;
+            _top += (int) ceil(size / sizeof(u64)) + 1;
 
             return memoryBloc;
         }
