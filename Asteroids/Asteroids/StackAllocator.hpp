@@ -4,14 +4,14 @@
 class StackAllocator : public Allocator
 {
 public:
-	StackAllocator(size_t size, void* start);
+	StackAllocator(size_t size, char* head);
 	~StackAllocator();
-	void* allocate(size_t size, u8 alignment) override;
-	void deallocate(void* p) override;
+	virtual void* allocate(size_t size) override;
+	virtual void deallocate() override;
 
 private:
 	StackAllocator(const StackAllocator&); //On empêche les instructions de copie
 	StackAllocator& operator=(const StackAllocator&);
-	u8 adjustment;
-	void* _current_pos;
+	void clear();
+	u64* _current_pos;
 };

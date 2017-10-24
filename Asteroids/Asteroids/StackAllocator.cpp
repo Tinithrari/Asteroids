@@ -1,7 +1,7 @@
 #include "StackAllocator.hpp"
 
-StackAllocator::StackAllocator(size_t size, void* start)
-	: Allocator(size, start), _current_pos(start)
+StackAllocator::StackAllocator(size_t size, char* head)
+	: Allocator(size, head), _current_pos(_head)
 {
 	assert(size > 0);
 }
@@ -10,27 +10,31 @@ StackAllocator::~StackAllocator()
 {
 	_current_pos = nullptr;
 }
-void* StackAllocator::allocate(size_t size, u8 alignment)
-{
-	assert(size != 0);
-	u8 adjustment = pointer_math::alignForwardAdjustmentWithHeader(_current_pos, alignment, sizeof(AllocationHeader));
-	if (_used_memory + adjustment + size > _size)
-		return nullptr;
-	void* aligned_address = pointer_math::add(_current_pos, adjustment);
-	//Add Allocation Header
-	adjustment = (u8*)(pointer_math::subtract(aligned_address, sizeof(adjustment)));
-	adjustment->adjustment = adjustment;
 
-	_current_pos = pointer_math::add(aligned_address, size);
-	_used_memory += size + adjustment;
-	_num_allocations++;
-	return aligned_address;
-}
-void StackAllocator::deallocate(void* p)
+void* StackAllocator::allocate(size_t size)
 {
-	//Access the AllocationHeader in the bytes before p
-	adjustment = (adjustment)(pointer_math::subtract(p, sizeof(adjustment)));
-	_used_memory -= (uptr)_current_pos - (uptr)p + header->adjustment;
-	_current_pos = pointer_math::subtract(p, adjustment->adjustment);
-	_num_allocations--;
+	if (size != 0)
+		throw "La taille de la memoire a allouer doit etre positive.";
+
+	if (size > (_head + size) - _current_pos)
+		throw "Taille de la memoire trop petite pour l'allocation.";
+
+
+	_current_pos += size;
+	_used_memory += size;
+	_num_allocations++;
+
+	return (void*) _current_pos;
+}
+
+void StackAllocator::deallocate(void* p, size_t size)
+{
+	_current_pos -= size;
+}
+
+void StackAllocator::clear()
+{
+	_current_pos = _head;
+	_used_memory = 0;
+	_num_allocations = 0;
 }
