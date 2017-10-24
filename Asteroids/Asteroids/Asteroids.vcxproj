@@ -146,6 +146,7 @@
     <ClInclude Include="FrameManager.hpp" />
     <ClInclude Include="Scene.hpp" />
     <ClInclude Include="Ship.hpp" />
+    <ClInclude Include="Shot.hpp" />
     <ClInclude Include="Updatable.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

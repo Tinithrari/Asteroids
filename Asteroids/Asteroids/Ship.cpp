@@ -49,14 +49,14 @@ void world::Ship::Update(float delta)
     {
         if (_event & control_event::FORWARD)
         {
-            _thrusterForces.x += _orientation.x * Ship::SPEED;
-            _thrusterForces.y += _orientation.y * Ship::SPEED;
+            _thrusterForces.x += _orientation.x * Ship::SPEED * delta;
+            _thrusterForces.y += _orientation.y * Ship::SPEED * delta;
         }
 
         if (_event & control_event::BACKWARD)
         {
-            _thrusterForces.x -= -_orientation.x * Ship::SPEED;
-            _thrusterForces.y -= -_orientation.y * Ship::SPEED;
+            _thrusterForces.x -= -_orientation.x * Ship::SPEED * delta;
+            _thrusterForces.y -= -_orientation.y * Ship::SPEED * delta;
         }
 
         if (_event & control_event::ROT_LEFT)
