@@ -36,5 +36,7 @@ namespace world
      */
     class Scene : public Updatable, public sf::Drawable
     {
+    public:
+        virtual void reinit() = 0;
     };
 }
