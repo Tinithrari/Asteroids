@@ -36,6 +36,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class Updatable
 {
 public:
+
+    /**
+     * Destructeur virtuel
+     */
+    virtual ~Updatable() {}
+
     /**
      * @brief Fonction de gestion des évènements
      * @param e Evenement a gerer

@@ -37,6 +37,14 @@ namespace world
     class Scene : public Updatable, public sf::Drawable
     {
     public:
+        /**
+         * Destructeur virtuel
+         */
+        virtual ~Scene() {}
+
+        /**
+         * Reinitialise l'etat de la scene
+         */
         virtual void reinit() = 0;
     };
 }
