@@ -26,9 +26,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "Updatable.hpp"
+#include "StackAllocator.hpp"
+#include "FrameManager.hpp"
+
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
+
+#define MEMORY_SPACE 200000000
+constexpr size_t MEMORY_SIZE = MEMORY_SPACE / 8;
+
+using namespace std;
 
 /**
  * @class Application
@@ -41,6 +49,9 @@ class Application : private Updatable
 private:
     sf::Clock _clock; /*!< L'horloge servant à mesurer le temps entre chaque frame */
     sf::RenderWindow _window; /*!< Fenêtre de rendu du jeu */
+    
+    memory::StackAllocator  _allocator; /*<! Memory Allocator */
+    frame::FrameManager     _fManager; /*<! Frame Manager */
 
     // Hérite via Updatable
     virtual void ProcessEvent(sf::Event & e) override
@@ -60,10 +71,8 @@ public:
     /**
      * Constructeur par defaut
      */
-    Application() : _window(sf::VideoMode(1280, 720), "Asteroids")
-    {
-
-    }
+    Application() : _window(sf::VideoMode(1280, 720), "Asteroids"), _allocator(MEMORY_SIZE), _fManager(_allocator)
+    {}
 
     /**
      * Destructeur

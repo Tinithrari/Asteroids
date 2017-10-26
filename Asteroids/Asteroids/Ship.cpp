@@ -167,6 +167,6 @@ void world::Ship::checkKeyReleased(sf::Event &e)
 
         // Remise a zero des evenements si necessaire
         if (_event == 1)
-            _event == control_event::NONE;
+            _event = control_event::NONE;
     }
 }
