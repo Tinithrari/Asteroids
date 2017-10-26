@@ -41,27 +41,71 @@ class Application : private Updatable
 private:
     sf::Clock _clock; /*!< L'horloge servant à mesurer le temps entre chaque frame */
     sf::RenderWindow _window; /*!< Fenêtre de rendu du jeu */
-    void render(); /*<! Fonction permettant d'effectuer la mise à jour de l'affichage */
 
     // Hérite via Updatable
-    virtual void ProcessEvent(sf::Event & e) override;
-    virtual void Update(float delta) override;
+    virtual void ProcessEvent(sf::Event & e) override
+    {
+        if (e.type == sf::Event::Closed)
+            _window.close();
+
+        // Event dispatching
+    }
+
+    virtual void Update(float delta) override
+    {
+        // Application update
+    }
 
 public:
     /**
      * Constructeur par defaut
      */
-    Application();
+    Application() : _window(sf::VideoMode(1280, 720), "Asteroids")
+    {
+
+    }
 
     /**
      * Destructeur
      */
-    ~Application();
+    ~Application()
+    {
+
+    }
 
     /**
      * @brief lance l'application
      *
      * Lance l'application et effectue toutes les allocations necessaires
      */
-    void run();
+    void run()
+    {
+        float lastRefresh;
+        _clock.restart();
+
+        lastRefresh = _clock.getElapsedTime().asSeconds();
+        while (_window.isOpen())
+        {
+            float delta = _clock.getElapsedTime().asSeconds();
+            sf::Event e;
+
+            while (_window.pollEvent(e))
+            {
+                ProcessEvent(e);
+            }
+
+            Update(delta);
+            render();
+        }
+    }
+
+    /**
+    * Fonction effectuant le rendu de la scene
+    */
+    void render()
+    {
+        _window.clear();
+        // Rendering chain here
+        _window.display();
+    }
 };
