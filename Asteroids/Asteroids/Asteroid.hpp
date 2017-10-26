@@ -49,13 +49,17 @@ namespace world
     private:
         Sprite _sprite; /*<! sprite de l'asteroid */
         int _size; /*<! taille de l'asteroid */
+		const float _speed; /*<! Vitesse de l'asteroid*/
+		static const float ROTATION; /*<! Rotation de l'asteroid*/
+		const sf::Vector2f _orientation /*<! Orientation de l'asteroid*/;
+
     public:
         /**
          * Constructeur de l'asteroid
          * @param taille de l'asteroid
          * @param position Position de l'asteroid
          */
-        explicit Asteroid(int size, Vector2f position);
+        explicit Asteroid(int size, Vector2f position, float speed, sf::Vector2f orientation);
 
         /**
          * Destructeur
@@ -69,4 +73,6 @@ namespace world
         // Herite via Drawable
         virtual void draw(RenderTarget & target, RenderStates states) const override;
     };
+
+	const float Asteroid::ROTATION(2.f);
 }

@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 * @see Asteroid.hpp
 */
 
-world::Asteroid::Asteroid(int size, Vector2f position) : _size(size)
+world::Asteroid::Asteroid(int size, Vector2f position, float speed, sf::Vector2f orientation) : _size(size), _speed(speed), _orientation(orientation)
 {
 }
 
@@ -34,12 +34,16 @@ world::Asteroid::~Asteroid()
 {
 }
 
-void world::Asteroid::ProcessEvent(sf::Event & e)
+void world::Asteroid::ProcessEvent(sf::Event &e)
 {
+
 }
 
 void world::Asteroid::Update(float delta)
 {
+	// L'asteroid tourne sur lui meme
+	_sprite.rotate(ROTATION);
+	_sprite.move(_orientation.x * _speed, _orientation.y * _speed);
 }
 
 void world::Asteroid::draw(RenderTarget & target, RenderStates states) const
