@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Updatable.hpp"
 #include "StackAllocator.hpp"
 #include "FrameManager.hpp"
-
+#include "GameFrame.hpp"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
@@ -52,6 +52,7 @@ private:
     
     memory::StackAllocator  _allocator; /*<! Memory Allocator */
     frame::FrameManager     _fManager; /*<! Frame Manager */
+    world::Frame*           _currentFrame; /*<! A pointer on the current frame */
 
     // Hérite via Updatable
     virtual void ProcessEvent(sf::Event & e) override
@@ -59,12 +60,12 @@ private:
         if (e.type == sf::Event::Closed)
             _window.close();
 
-        // Event dispatching
+        _currentFrame->ProcessEvent(e);
     }
 
     virtual void Update(float delta) override
     {
-        // Application update
+        _currentFrame->Update(delta);
     }
 
 public:
@@ -72,7 +73,10 @@ public:
      * Constructeur par defaut
      */
     Application() : _window(sf::VideoMode(1280, 720), "Asteroids"), _allocator(MEMORY_SIZE), _fManager(_allocator)
-    {}
+    {
+        _currentFrame = _fManager.allocateNewScene(sizeof(world::GameFrame));
+        new(_currentFrame) world::GameFrame(_fManager, _window.getSize());
+    }
 
     /**
      * Destructeur
@@ -95,7 +99,7 @@ public:
         lastRefresh = _clock.getElapsedTime().asSeconds();
         while (_window.isOpen())
         {
-            float delta = _clock.getElapsedTime().asSeconds();
+            float delta = _clock.getElapsedTime().asSeconds() - lastRefresh;
             sf::Event e;
 
             while (_window.pollEvent(e))
@@ -105,6 +109,7 @@ public:
 
             Update(delta);
             render();
+            lastRefresh = _clock.getElapsedTime().asSeconds();
         }
     }
 
@@ -114,7 +119,7 @@ public:
     void render()
     {
         _window.clear();
-        // Rendering chain here
+        _currentFrame->draw(_window);
         _window.display();
     }
 };
