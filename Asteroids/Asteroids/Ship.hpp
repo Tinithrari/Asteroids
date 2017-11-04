@@ -28,12 +28,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Updatable.hpp"
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include <cmath>
 
 #define SPEED 0.2f
 #define ACCELERATION 100.f
 #define ANGLE_MAX 360
 
 using namespace sf;
+using namespace std;
 
 /**
  * @namespace world
@@ -64,11 +67,12 @@ namespace world
         ROT_RIGHT = 16 /*<! Quand le vaisseau tourne a droite */
     };
     private:
-        CircleShape _ship; /*<! Le sprite du vaisseau */
+        Sprite _ship; /*<! Le sprite du vaisseau */
         bool _keyPressed; /*<! Objet pour éviter la duplication d'evenements clavier */
         control_event _event; /*<! Evenement de controle du vaisseau */
         sf::Vector2f _thrusterForces; /*<! Force des moteurs */
         sf::Vector2f _orientation; /*<! Orientation du vaiseau (facteur des translations) */
+        static Texture* _Texture;
         
         /*<! Gere les evenements quand une touche est appuyee */
         void checkKeyPressed(sf::Event &e)
@@ -144,10 +148,22 @@ namespace world
         /**
          * Constructeur par défaut
          */
-        Ship(sf::Vector2f &position): _keyPressed(false), _event(NONE), _orientation(0, 1), _ship(50, 3), _thrusterForces()
+        Ship(sf::Vector2f &position): _keyPressed(false), _event(NONE), _orientation(0, -1),  _thrusterForces()
         {
+            if (_Texture == nullptr)
+            {
+                _Texture = new Texture();
+                if (!_Texture->loadFromFile("ship.png"))
+                {
+                    cerr << "Cannot find ship.png" << endl;
+                    exit(1);
+                }
+            }
+
+            _ship.setTexture(*_Texture);
             _ship.setPosition(position);
-            _ship.setOrigin(50, 50);
+            _ship.setOrigin(_Texture->getSize().x / 2, _Texture->getSize().y / 2);
+            _ship.setRotation(90);
         }
 
         /**
@@ -172,35 +188,37 @@ namespace world
                 if (_event & control_event::FORWARD)
                 {
                     _thrusterForces.x += _orientation.x * ACCELERATION * delta;
-                    _thrusterForces.y += -_orientation.y * ACCELERATION * delta;
+                    _thrusterForces.y += _orientation.y * ACCELERATION * delta;
                 }
 
                 if (_event & control_event::BACKWARD)
                 {
                     _thrusterForces.x -= _orientation.x * ACCELERATION * delta;
-                    _thrusterForces.y -= -_orientation.y * ACCELERATION * delta;
+                    _thrusterForces.y -= _orientation.y * ACCELERATION * delta;
                 }
 
                 if (_event & control_event::ROT_LEFT)
                 {
-                    float angle;
+                    int angle;
                     _ship.rotate(-0.2);
                     angle = _ship.getRotation();
 
                     // Calcul du vecteur d'orientation
-                    _orientation.x = cos(angle);
-                    _orientation.y = sin(angle);
+                    _orientation.x = -cos(angle / 180.f * 3.1416);
+                    _orientation.y = -sin(angle / 180.f * 3.1416);
+                    cout << "(" << _orientation.x << "," << _orientation.y << ")  " << angle << endl;
                 }
 
                 if (_event & control_event::ROT_RIGHT)
                 {
-                    float angle;
+                    int angle;
                     _ship.rotate(0.2);
                     angle = _ship.getRotation();
 
                     // Calcul du vecteur d'orientation
-                    _orientation.x = cos(abs(angle));
-                    _orientation.y = sin(abs(angle));
+                    _orientation.x = -cos(angle / 180.f * 3.1416);
+                    _orientation.y = -sin(angle / 180.f * 3.1416);
+                    cout << "(" << _orientation.x << "," << _orientation.y << ")  " << angle << endl;
                 }
             }
 
@@ -227,4 +245,5 @@ namespace world
             target.draw(_ship);
         }
     };
+    Texture* Ship::_Texture(nullptr);
 }
