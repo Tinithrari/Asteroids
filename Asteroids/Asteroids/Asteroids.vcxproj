@@ -134,7 +134,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="GameFrame.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

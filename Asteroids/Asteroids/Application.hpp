@@ -69,10 +69,13 @@ private:
     }
 
 public:
+    static const int        WIDTH; /*<! Width of the window */
+    static const int        HEIGHT; /*<! Height of the window */
+
     /**
      * Constructeur par defaut
      */
-    Application() : _window(sf::VideoMode(1280, 720), "Asteroids"), _allocator(MEMORY_SIZE), _fManager(_allocator)
+    Application() : _window(sf::VideoMode(Application::WIDTH, Application::HEIGHT), "Asteroids"), _allocator(MEMORY_SIZE), _fManager(_allocator)
     {
         _currentFrame = _fManager.allocateNewScene(sizeof(world::GameFrame));
         new(_currentFrame) world::GameFrame(_fManager, _window.getSize());
@@ -123,3 +126,5 @@ public:
         _window.display();
     }
 };
+const int Application::WIDTH(1280);
+const int Application::HEIGHT(720);

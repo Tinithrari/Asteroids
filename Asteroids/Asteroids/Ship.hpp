@@ -28,7 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Updatable.hpp"
 
 #include <SFML/Graphics.hpp>
-#include <iostream>
 #include <cmath>
 
 #define SPEED 0.2f
@@ -37,6 +36,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using namespace sf;
 using namespace std;
+
+class Application;
 
 /**
  * @namespace world
@@ -73,6 +74,8 @@ namespace world
         sf::Vector2f _thrusterForces; /*<! Force des moteurs */
         sf::Vector2f _orientation; /*<! Orientation du vaiseau (facteur des translations) */
         static Texture* _Texture;
+        static const int WIDTH;
+        static const int HEIGHT;
         
         /*<! Gere les evenements quand une touche est appuyee */
         void checkKeyPressed(sf::Event &e)
@@ -162,7 +165,7 @@ namespace world
 
             _ship.setTexture(*_Texture);
             _ship.setPosition(position);
-            _ship.setOrigin(_Texture->getSize().x / 2, _Texture->getSize().y / 2);
+            _ship.setOrigin(_Texture->getSize().x / 2.f, _Texture->getSize().y / 2.f);
             _ship.setRotation(90);
         }
 
@@ -206,7 +209,6 @@ namespace world
                     // Calcul du vecteur d'orientation
                     _orientation.x = -cos(angle / 180.f * 3.1416);
                     _orientation.y = -sin(angle / 180.f * 3.1416);
-                    cout << "(" << _orientation.x << "," << _orientation.y << ")  " << angle << endl;
                 }
 
                 if (_event & control_event::ROT_RIGHT)
@@ -218,7 +220,6 @@ namespace world
                     // Calcul du vecteur d'orientation
                     _orientation.x = -cos(angle / 180.f * 3.1416);
                     _orientation.y = -sin(angle / 180.f * 3.1416);
-                    cout << "(" << _orientation.x << "," << _orientation.y << ")  " << angle << endl;
                 }
             }
 
@@ -237,7 +238,16 @@ namespace world
 
             _ship.move(_thrusterForces);
 
-            // Controle de position (Todo)
+            const Vector2f& pos = _ship.getPosition();
+
+            if (pos.x > Ship::WIDTH)
+                _ship.setPosition(0, pos.y);
+            if (pos.y > Ship::HEIGHT)
+                _ship.setPosition(pos.x, 0);
+            if (pos.x < - (int) _ship.getTexture()->getSize().x)
+                _ship.setPosition(Ship::WIDTH, pos.y);
+            if (pos.y < -(int)_ship.getTexture()->getSize().y)
+                _ship.setPosition(pos.x, Ship::HEIGHT);
         }
 
         virtual void draw(RenderTarget & target) const
@@ -245,5 +255,7 @@ namespace world
             target.draw(_ship);
         }
     };
+    const int Ship::WIDTH(1280);
+    const int Ship::HEIGHT(720);
     Texture* Ship::_Texture(nullptr);
 }
