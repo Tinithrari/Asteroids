@@ -134,7 +134,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GameFrame.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +147,7 @@
     <ClInclude Include="Updatable.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="asteroid.png" />
     <Image Include="ship.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>

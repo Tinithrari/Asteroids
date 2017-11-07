@@ -54,30 +54,38 @@ namespace world
         int _size; /*<! taille de l'asteroid */
 		float _speed; /*<! Vitesse de l'asteroid*/
 		static const float ROTATION; /*<! Rotation de l'asteroid*/
-		sf::Vector2f _orientation /*<! Orientation de l'asteroid*/;
+        sf::Vector2f _orientation; /*<! Orientation de l'asteroid*/
+        bool _initialized;
 
     public:
         static const int MAX_SIZE;
         static const int WIDTH;
         static const int HEIGHT;
 
+        Asteroid(): _initialized(false)
+        {
+
+        }
+
         /**
          * Constructeur de l'asteroid
          * @param taille de l'asteroid
          * @param position Position de l'asteroid
          */
-        explicit Asteroid(int size, Vector2f position, float speed, Vector2f orientation) : _size(size), _speed(speed), _orientation(orientation)
+        explicit Asteroid(int size, Vector2f position, float speed, Vector2f orientation) : _size(size), _speed(speed), _orientation(orientation), _initialized(true)
         {
             if (ASTEROID_TEXTURE == nullptr)
             {
                 ASTEROID_TEXTURE = new Texture();
-                if (!ASTEROID_TEXTURE->loadFromFile("asteroid.png"))
+                if (! ASTEROID_TEXTURE->loadFromFile("asteroid.png"))
                 {
                     std::clog << "asteroid.png is missing" << std::endl;
                     exit(1);
                 }
             }
             _sprite.setTexture(*ASTEROID_TEXTURE);
+            _sprite.setPosition(position);
+            _sprite.setOrigin(_sprite.getTexture()->getSize().x / 2.f, _sprite.getTexture()->getSize().y / 2.f);
         }
 
         /**
@@ -90,23 +98,25 @@ namespace world
         // Herite via Updatable
         virtual void ProcessEvent(sf::Event & e) override
         {
-            // L'asteroid tourne sur lui meme
-            _sprite.rotate(ROTATION);
-            _sprite.move(_orientation.x * _speed, _orientation.y * _speed);
-
-            const sf::Vector2f& pos = _sprite.getPosition();
-
-            if (pos.x > Asteroid::WIDTH)
-                _sprite.setPosition(0, pos.y);
-            if (pos.y > Asteroid::HEIGHT)
-                _sprite.setPosition(pos.x, 0);
-            if (pos.x < -(int)_sprite.getTexture()->getSize().x * _size)
-                _sprite.setPosition(Asteroid::WIDTH, pos.y);
-            if (pos.y < -(int)_sprite.getTexture()->getSize().y * _size)
-                _sprite.setPosition(pos.x, Asteroid::HEIGHT);
+            
         }
 
-        virtual void Update(float delta) override;
+        virtual void Update(float delta) override
+        {
+            // L'asteroid tourne sur lui meme
+            _sprite.rotate(ROTATION);
+            _sprite.move(_orientation.x * _speed * delta * 1000, _orientation.y * _speed * delta * 1000);
+            const sf::Vector2f& pos = _sprite.getPosition();
+
+            if (pos.x > Asteroid::WIDTH + _sprite.getTexture()->getSize().x / 2)
+                _sprite.setPosition(-(float)_sprite.getTexture()->getSize().x / 2, pos.y);
+            if (pos.y > Asteroid::HEIGHT + _sprite.getTexture()->getSize().y / 2)
+                _sprite.setPosition(pos.x, - (float) _sprite.getTexture()->getSize().y / 2);
+            if (pos.x < -(int)(_sprite.getTexture()->getSize().x / 2) * _sprite.getScale().x)
+                _sprite.setPosition(Asteroid::WIDTH + _sprite.getTexture()->getSize().x / 2, pos.y);
+            if (pos.y < -(int)(_sprite.getTexture()->getSize().y / 2) * _sprite.getScale().y)
+                _sprite.setPosition(pos.x, Asteroid::HEIGHT + _sprite.getTexture()->getSize().y / 2);
+        }
 
         // Herite via Drawable
         virtual void draw(RenderTarget & target) const
@@ -119,12 +129,19 @@ namespace world
             _size = a._size;
             _speed = a._speed;
             _orientation = a._orientation;
+            _initialized = a._initialized;
+            _sprite = a._sprite;
+            return *this;
+        }
+
+        bool isInitialized() const {
+            return _initialized;
         }
 
     };
-    const int Ship::WIDTH(1280);
-    const int Ship::HEIGHT(720);
+    const int Asteroid::WIDTH(1280);
+    const int Asteroid::HEIGHT(720);
     sf::Texture* Asteroid::ASTEROID_TEXTURE(nullptr);
-	const float Asteroid::ROTATION(0.2f);
+	const float Asteroid::ROTATION(0.01f);
     const int Asteroid::MAX_SIZE(3);
 }

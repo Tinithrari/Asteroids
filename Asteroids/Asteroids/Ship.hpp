@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <cmath>
 
 #define SPEED 0.2f
-#define ACCELERATION 100.f
+#define ACCELERATION 50.f
 #define ANGLE_MAX 360
 
 using namespace sf;
