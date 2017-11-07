@@ -21,6 +21,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Updatable.hpp"
 #include <SFML/Graphics.hpp>
 
+namespace frame
+{
+    class FrameManager;
+}
+
 /**
  * @namespace world
  *
@@ -29,22 +34,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace world
 {
     /**
-     * @class Scene
+     * @class Frame
      * @brief Conteneur d'éléments graphiques
      *
      * Définit le contexte affiché à l'écran
      */
-    class Scene : public Updatable, public sf::Drawable
+    class Frame : public Updatable
     {
+    protected:
+        frame::FrameManager&    _manager;
     public:
+
+        /**
+         * Constructeur par defaut
+         */
+        Frame(frame::FrameManager &manager) : _manager(manager) {}
+
         /**
          * Destructeur virtuel
          */
-        virtual ~Scene() {}
+        virtual ~Frame() {}
 
         /**
          * Reinitialise l'etat de la scene
          */
         virtual void reinit() = 0;
+
+        virtual void draw(sf::RenderTarget &target) const = 0;
     };
 }

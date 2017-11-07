@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Scene.hpp"
+#include "Frame.hpp"
 #include "StackAllocator.hpp"
 
 #include <array>
@@ -28,7 +28,7 @@ namespace frame
     {
     private:
         memory::StackAllocator&                         _allocator;         /*<! Allocateur mémoire */
-        array<pair<world::Scene*, size_t>, NB_SCENE>    _frames;            /*<! Tableau contenant les pointeurs vers les scenes */
+        array<pair<world::Frame*, size_t>, NB_SCENE>    _frames;            /*<! Tableau contenant les pointeurs vers les scenes */
         int                                             _currentIndex;      /*<! Index de la scene courante */
     public:
         /**
@@ -41,8 +41,6 @@ namespace frame
          */
         ~FrameManager()
         {
-            for (int i = 0; i < NB_SCENE; ++i)
-                delete _frames[i].first;
         }
 
         /**
@@ -52,18 +50,18 @@ namespace frame
          * @param sceneSize taille de la scene
          * @return un pointeur sur la scene allouee
          */
-        world::Scene *allocateNewScene(size_t sceneSize)
+        world::Frame *allocateNewScene(size_t sceneSize)
         {
             try 
             {
-                world::Scene *scene = (world::Scene*) _allocator.allocate(sceneSize);
+                world::Frame *scene = (world::Frame*) _allocator.allocate(sceneSize);
                 _frames[++_currentIndex].first = scene;
                 _frames[_currentIndex].second = sceneSize;
                 return scene;
             } 
             catch (overflow_error &e)
             {
-                throw overflow_error("Not enough memory to allocate the scene");
+                throw overflow_error(e);
             }
         }
 
@@ -73,7 +71,7 @@ namespace frame
          * @brief Retourne la scene precedente
          * @return Un pointeur sur la scene precedente
          */
-        world::Scene* getPrevious()
+        world::Frame* getPrevious()
         {
             if (_currentIndex <= 0)
                 throw runtime_error("Can't get a previous scene when this is the first scene, or when there is no scene");

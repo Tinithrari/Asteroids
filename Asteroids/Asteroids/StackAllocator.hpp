@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <cstdint>
 #include <cmath>
 #include <stdexcept>
+#include <iostream>
 
 using namespace std;
 
