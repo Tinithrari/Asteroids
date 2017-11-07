@@ -44,12 +44,18 @@
     <ClInclude Include="GameFrame.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Laser.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="ship.png">
       <Filter>Fichiers de ressources</Filter>
     </Image>
     <Image Include="asteroid.png">
+      <Filter>Fichiers de ressources</Filter>
+    </Image>
+    <Image Include="laser.png">
       <Filter>Fichiers de ressources</Filter>
     </Image>
   </ItemGroup>
