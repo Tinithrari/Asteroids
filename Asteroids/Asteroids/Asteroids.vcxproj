@@ -142,12 +142,14 @@
     <ClInclude Include="FrameManager.hpp" />
     <ClInclude Include="Frame.hpp" />
     <ClInclude Include="GameFrame.hpp" />
+    <ClInclude Include="Laser.hpp" />
     <ClInclude Include="Ship.hpp" />
     <ClInclude Include="StackAllocator.hpp" />
     <ClInclude Include="Updatable.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="asteroid.png" />
+    <Image Include="laser.png" />
     <Image Include="ship.png">
       <DeploymentContent>true</DeploymentContent>
     </Image>
