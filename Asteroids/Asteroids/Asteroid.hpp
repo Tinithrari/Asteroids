@@ -40,6 +40,7 @@ using namespace sf;
 */
 namespace world
 {
+    class Laser;
     /**
      * @class Asteroid
      * @brief Définition d'un asteroid
@@ -51,7 +52,7 @@ namespace world
     private:
         static sf::Texture* ASTEROID_TEXTURE;
         Sprite _sprite; /*<! sprite de l'asteroid */
-        int _size; /*<! taille de l'asteroid */
+        float _size; /*<! taille de l'asteroid */
 		float _speed; /*<! Vitesse de l'asteroid*/
 		static const float ROTATION; /*<! Rotation de l'asteroid*/
         sf::Vector2f _orientation; /*<! Orientation de l'asteroid*/
@@ -72,7 +73,7 @@ namespace world
          * @param taille de l'asteroid
          * @param position Position de l'asteroid
          */
-        explicit Asteroid(int size, Vector2f position, float speed, Vector2f orientation) : _size(size), _speed(speed), _orientation(orientation), _initialized(true)
+        explicit Asteroid(float size, Vector2f position, float speed, Vector2f orientation) : _size(size), _speed(speed), _orientation(orientation), _initialized(true)
         {
             if (ASTEROID_TEXTURE == nullptr)
             {
@@ -86,6 +87,7 @@ namespace world
             _sprite.setTexture(*ASTEROID_TEXTURE);
             _sprite.setPosition(position);
             _sprite.setOrigin(_sprite.getTexture()->getSize().x / 2.f, _sprite.getTexture()->getSize().y / 2.f);
+            _sprite.scale(_size / Asteroid::MAX_SIZE, _size / Asteroid::MAX_SIZE);
         }
 
         /**
@@ -138,6 +140,40 @@ namespace world
             return _initialized;
         }
 
+        const sf::FloatRect getBoundingBox()
+        {
+            return _sprite.getGlobalBounds();
+        }
+
+        bool collide(Laser & l)
+        {
+            if (l.getBoundingBox().intersects(getBoundingBox()))
+            {
+                _initialized = false;
+                l.setState(Laser::State::NONE);
+            }
+            return !_initialized;
+        }
+
+        int getSize()
+        {
+            return _size;
+        }
+
+        float getSpeed()
+        {
+            return _speed;
+        }
+
+        Vector2f getPosition()
+        {
+            return _sprite.getPosition();
+        }
+
+        Vector2f getOrientation()
+        {
+            return _orientation;
+        }
     };
     const int Asteroid::WIDTH(1280);
     const int Asteroid::HEIGHT(720);

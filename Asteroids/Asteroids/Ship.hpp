@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "Updatable.hpp"
+#include "Laser.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <cmath>
@@ -65,7 +66,8 @@ namespace world
         BACKWARD = 2, /*!< Quand le vaisseau fait marche arriere */
         FORWARD = 4,  /*<! Quand le vaisseau fait marche avant */
         ROT_LEFT = 8, /*<! Quand le vaisseau tourne a gauche */
-        ROT_RIGHT = 16 /*<! Quand le vaisseau tourne a droite */
+        ROT_RIGHT = 16, /*<! Quand le vaisseau tourne a droite */
+        FIRE = 32 /*<! Quand le vaisseau fait feu */
     };
     private:
         Sprite _ship; /*<! Le sprite du vaisseau */
@@ -76,6 +78,7 @@ namespace world
         static Texture* _Texture;
         static const int WIDTH;
         static const int HEIGHT;
+        Laser       &_laser;
         
         /*<! Gere les evenements quand une touche est appuyee */
         void checkKeyPressed(sf::Event &e)
@@ -109,6 +112,12 @@ namespace world
                     _event = (control_event)(_event | control_event::BACKWARD);
                     _event = (control_event)(_event | 1);
                 }
+
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+                {
+                    _event = (control_event)(_event | control_event::FIRE);
+                    _event = (control_event)(_event | 1);
+                }
             }
         }
 
@@ -140,6 +149,11 @@ namespace world
                     _event = (control_event)(_event & !control_event::BACKWARD);
                 }
 
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+                {
+                    _event = (control_event)(_event & !control_event::FIRE);
+                }
+
                 // Remise a zero des evenements si necessaire
                 if (_event == 1)
                 {
@@ -151,7 +165,7 @@ namespace world
         /**
          * Constructeur par défaut
          */
-        Ship(sf::Vector2f &position): _keyPressed(false), _event(NONE), _orientation(0, -1),  _thrusterForces()
+        Ship(sf::Vector2f &position, Laser & laser): _keyPressed(false), _event(NONE), _orientation(0, -1),  _thrusterForces(), _laser(laser)
         {
             if (_Texture == nullptr)
             {
@@ -221,6 +235,10 @@ namespace world
                     _orientation.x = -cos(angle / 180.f * 3.1416);
                     _orientation.y = -sin(angle / 180.f * 3.1416);
                 }
+                if (_event & control_event::FIRE)
+                {
+                    _laser.fire(_ship.getPosition(), _orientation, _ship.getRotation());
+                }
             }
 
             // Controle de vitesse maximale
@@ -240,13 +258,13 @@ namespace world
 
             const Vector2f& pos = _ship.getPosition();
 
-            if (pos.x > Ship::WIDTH)
+            if (pos.x > Ship::WIDTH + _ship.getOrigin().x)
                 _ship.setPosition(0, pos.y);
-            if (pos.y > Ship::HEIGHT)
+            if (pos.y > Ship::HEIGHT + _ship.getOrigin().y)
                 _ship.setPosition(pos.x, 0);
-            if (pos.x < - (int) _ship.getTexture()->getSize().x)
+            if (pos.x < - (int) _ship.getTexture()->getSize().x + _ship.getOrigin().x)
                 _ship.setPosition(Ship::WIDTH, pos.y);
-            if (pos.y < -(int)_ship.getTexture()->getSize().y)
+            if (pos.y < -(int)_ship.getTexture()->getSize().y + _ship.getOrigin().y)
                 _ship.setPosition(pos.x, Ship::HEIGHT);
         }
 
